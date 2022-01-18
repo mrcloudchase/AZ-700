@@ -1,0 +1,84 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {},
+    "functions": [],
+    "variables": {
+      "namingConventionPrefix": "cake-",
+      "hubVnetName": "hub-vnet",
+      "hubVnetCidr": "10.0.0.0/16",
+      "hubSubnetName": "hub-subnet-01",
+      "hubSubnetCidr": "10.0.0.0/24",
+      "spoke1VnetName": "spoke-vnet-01",
+      "spoke1VnetCidr": "192.168.0.0/16",
+      "spoke1SubnetName": "spoke1-subnet-01",
+      "spoke1SubnetCidr": "192.168.0.0/24",
+      "spoke2VnetName": "hq-vnet-01",
+      "spoke2VnetCidr": "172.16.0.0/16",
+      "spoke2SubnetName": "spoke2-subnet-01",
+      "spoke2SubnetCidr": "172.16.0.0/24"
+    },
+    "resources": [
+      {
+        "name": "[concat(variables('namingConventionPrefix'), variables('hubVnetName'), '-01')]",
+        "type": "Microsoft.Network/virtualNetworks",
+        "apiVersion": "2020-11-01",
+        "location": "[resourceGroup().location]",
+        "tags": {},
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": ["[variables('hubVnetCidr')]"]
+          },
+          "subnets": [
+            {
+              "name": "[variables('hubSubnetName')]",
+              "properties": {
+                "addressPrefix": "[variables('hubSubnetCidr')]"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "[concat(variables('namingConventionPrefix'), variables('spoke1VnetName'))]",
+        "type": "Microsoft.Network/virtualNetworks",
+        "apiVersion": "2020-11-01",
+        "location": "[resourceGroup().location]",
+        "tags": {},
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": ["[variables('spoke1VnetCidr')]"]
+          },
+          "subnets": [
+            {
+              "name": "[variables('spoke1SubnetName')]",
+              "properties": {
+                "addressPrefix": "[variables('spoke1SubnetCidr')]"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "name": "[concat(variables('namingConventionPrefix'), variables('spoke2VnetName'))]",
+        "type": "Microsoft.Network/virtualNetworks",
+        "apiVersion": "2020-11-01",
+        "location": "[resourceGroup().location]",
+        "tags": {},
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": ["[variables('spoke2VnetCidr')]"]
+          },
+          "subnets": [
+            {
+              "name": "[variables('spoke2SubnetName')]",
+              "properties": {
+                "addressPrefix": "[variables('spoke2SubnetCidr')]"
+              }
+            }
+          ]
+        }
+      }
+    ],
+    "outputs": {}
+  }

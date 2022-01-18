@@ -1,0 +1,12 @@
+git clone https://github.com/mrcloudchase/AZ-700 # Clone git repository for AZ-700
+
+$rg = az group list --query [].name -o tsv # Set "rg" variable to resource group name **only intended for cloud playground**
+
+az deployment group create `
+--resource-group $rg `
+--template-file ./AZ-700/mainNetDeploy.json # Create a deployment from the named template and deployed to the scope of the specified resource group
+
+az resource list `
+--resource-group $rg `
+-o table # Output resources as table list for the resource group associated with the "rg" variable
+
